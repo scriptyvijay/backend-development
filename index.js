@@ -14,17 +14,20 @@ server.listen(port, (err) => {
 function requestHandle(req, res) {
 	res.writeHead(200, { "content-type": "text/html" });
 
-	if (req.url == "/404") {
-		fs.readFile("./404.html", (err, data) => {
-			if (err) {
-				console.log({ err });
-				res.end("<h1>Error</h1>");
-			}
-			return res.end(data);
-		});
+	let filepath;
+
+	switch (req.url) {
+		case "/":
+			filepath = "./index.html";
+			break;
+		case "/profile":
+			filepath = "./profile.html";
+			break;
+		default:
+			filepath = "./404.html";
 	}
 
-	fs.readFile("./index.html", (err, data) => {
+	fs.readFile(filepath, (err, data) => {
 		if (err) {
 			console.log({ err });
 			res.end("<h1>Error</h1>");
